@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sources xmlns="http://www.ETL.in" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation=" http://www.ETL.in settings.xsd ">
+    <source>
+        <URL>https://api.exchangeratesapi.io/latest</URL>
+        <type>json</type>
+        <timestamp>2016-01-08T15:16:44.554</timestamp>
+        <vendor>demo</vendor>
+    </source>
+</sources>
