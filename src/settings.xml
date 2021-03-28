@@ -4,16 +4,17 @@
     xsi:schemaLocation=" http://www.ETL.in settings.xsd ">
     <source>
         <URL>https://api.exchangeratesapi.io/latest</URL>
-<!--        <URL>https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv</URL>-->
         <type>json</type>
-<!--        <type>csv</type>-->
         <timestamp>2016-01-08T15:16:44.554</timestamp>
         <vendor>demo</vendor>
+        <queryFrequency>5.0</queryFrequency>
     </source>
-    <source>
-        <URL>https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv</URL>
-        <type>csv</type>
-        <timestamp>2016-01-08T15:16:45.554</timestamp>
-        <vendor>demo</vendor>
-    </source>
+
+<!--    <source>-->
+<!--        <URL>https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv</URL>-->
+<!--        <type>csv</type>-->
+<!--        <timestamp>2016-01-08T15:16:45.554</timestamp>-->
+<!--        <vendor>demo</vendor>-->
+<!--        <queryFrequency>3.0</queryFrequency>-->
+<!--    </source>-->
 </sources>

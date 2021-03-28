@@ -8,11 +8,21 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Calendar;
 import java.net.*;
+import java.util.TimerTask;
+import java.util.Timer;
 
-//import org.json.simple.JSONArray;
-//import org.json.simple.JSONObject;
-//import org.json.simple.parser.JSONParser;
-//import org.json.simple.parser.ParseException;
+
+class PeriodicExtract extends TimerTask{
+//    periodic extract object is created for every source and run method is called on it
+    public final Element eElement;
+    PeriodicExtract(Element e){
+        eElement=e;
+    }
+    public void run(){
+        Engine.data_dump(eElement);
+//        HOW TO RESOLVE MULTIPLE THREADS?
+    }
+}
 
 public class Engine{
     public static String insert_instruction(String[] entry_details) {
@@ -20,6 +30,7 @@ public class Engine{
 //        Independent of data types,url etc
         String s="INSERT INTO source_data_dump VALUES ('";
         int n=entry_details.length;
+//        TRY INCLUDING " IN STRING USING: /"
         s+=entry_details[0]+"'";
         for(int i=1;i<n;i++){
             s=s+','+"'"+entry_details[i]+"'";
@@ -34,15 +45,13 @@ public class Engine{
         String line_input="";
         while(true){
             String holder=in.readLine();
-//            holder=holder.replace("\n","");
             if(holder==null){
                 break;
             }
             line_input=line_input+holder;
 
         }
-//REPLACE ALL \n with ""
-        line_input=line_input.replace("\n","");
+        line_input=line_input.replace("\n",""); //REPLACE ALL \n with ""
 //        multiple line strings are allowed
 //        String a="abcnd\n";
 //        String b="ejndsn\n";
@@ -51,6 +60,7 @@ public class Engine{
         return line_input;
 
     }
+
 
     public static String get_URl_csvdata(String link) throws IOException {
         URL json_data=new URL(link);
@@ -67,7 +77,6 @@ public class Engine{
             }
             line_input=line_input+holder+"\n";
         }
-
         return line_input;
 
     }
@@ -82,7 +91,7 @@ public class Engine{
 //            1.to connect to database
 //INSTRUCTION:Database name is testDB in my case,change accordingly,similarly change username and password according to ur system
 //INSTRUCTION:BEFORE THAT CREATE A DATABASE THAT IS NAMED testDB ON YOUR SYSTEM
-            Connection connect=DriverManager.getConnection("jdbc:mysql://localhost:3306/testDB","root","XXXXX");
+            Connection connect=DriverManager.getConnection("jdbc:mysql://localhost:3306/testDB","root","XXXX");
             System.out.println("Successfully set up Connection to database\n");
 
 
@@ -125,7 +134,6 @@ public class Engine{
     }
 
 
-
     public static void main(String args[]) throws ParserConfigurationException, SAXException, IOException
     {
 
@@ -146,10 +154,19 @@ public class Engine{
                     Element eElement = (Element) nod;
                     System.out.println("Data Format: "+ eElement.getElementsByTagName("type").item(0).getTextContent());
                     System.out.println("URL source: "+ eElement.getElementsByTagName("URL").item(0).getTextContent());
+                    String interval=eElement.getElementsByTagName("queryFrequency").item(0).getTextContent();
+                    float f_inter=Float.parseFloat(interval);
+                    f_inter*=1000;
+                    int i_inter=(int)f_inter;
+
 //                    INSTRUCTION:GETtEXTCONTECT GIVES A sTRING
-//                    trying to call data_dump
-//                    THIS function runs the data dump
-                    data_dump(eElement);
+
+//                    PERIODIC EXTRACTION FOR EVERY SOURCE
+                    Timer time=new Timer();
+                    PeriodicExtract pe=new PeriodicExtract(eElement) ;
+                    time.schedule(pe,0,i_inter); //                    able to only run int seconds gap not in float,its okay since we multiply in seconds
+//NOTE:NEED TO HAVE SOME BUTTON THAT TERMINATES THIS LOOP OR ELSE WILL KEEP RUNNING FOR EVER
+//                    NOTE:STILL NEED TO FIGURE OUT HOW TO HANDLE DIFFERENT THREADS AND CLOSING THEM INDIVIDUALLY
                 }
 
             }

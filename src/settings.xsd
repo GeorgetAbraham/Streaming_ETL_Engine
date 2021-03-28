@@ -42,6 +42,7 @@
             <xsd:element name="timestamp" type="timestamp" minOccurs="1" maxOccurs="1"/>
             <xsd:element name="vendor" type="vendor" minOccurs="0" maxOccurs="1"/>
             <xsd:element name="queryFrequency" type="queryFrequency" default="1.0" minOccurs="0" maxOccurs="1"/>
+<!--            query frequency in seconds-->
             <xsd:element name="size" type="size" default = "5" minOccurs="0" maxOccurs="1"/>
         </xsd:sequence>
     </xsd:complexType>
