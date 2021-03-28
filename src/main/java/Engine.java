@@ -52,15 +52,37 @@ public class Engine{
 
     }
 
+    public static String get_URl_csvdata(String link) throws IOException {
+        URL json_data=new URL(link);
+        BufferedReader in=new BufferedReader(new InputStreamReader(json_data.openStream()));
+        String line_input="";
 
-    public static void json_data_dump(Element eElement){
+//        ACTUAL CODE TO RUN TO GET COMPLETE CSV FILE
+        while(true){
+            String holder=in.readLine();
+//            holder=holder+"\n";
+//            holder=holder.replace("\n","");
+            if(holder==null){
+                break;
+            }
+            line_input=line_input+holder+"\n";
+        }
+
+        return line_input;
+
+    }
+
+
+
+
+    public static void data_dump(Element eElement){
 //    need to write function for getting data from URL
         try{
             Class.forName("com.mysql.jdbc.Driver");
 //            1.to connect to database
 //INSTRUCTION:Database name is testDB in my case,change accordingly,similarly change username and password according to ur system
 //INSTRUCTION:BEFORE THAT CREATE A DATABASE THAT IS NAMED testDB ON YOUR SYSTEM
-            Connection connect=DriverManager.getConnection("jdbc:mysql://localhost:3306/testDB","root","XXXX");
+            Connection connect=DriverManager.getConnection("jdbc:mysql://localhost:3306/testDB","root","Rahulmon1!");
             System.out.println("Successfully set up Connection to database\n");
 
 
@@ -86,7 +108,13 @@ public class Engine{
 
 //            trying to get data from
 //            entry_details[4]="DUMMY FOR NOW LATER ADD DATA FROM CURL COMMAND";
-            entry_details[4]=get_URl_jsondata(entry_details[2]);
+            if(entry_details[1].equals("csv")){
+                entry_details[4]=get_URl_csvdata(entry_details[2]);
+            }
+            else if(entry_details[1].equals("json")){
+                entry_details[4]=get_URl_jsondata(entry_details[2]);
+            }
+
             System.out.println("The data downloaded from URL is the following:\n"+entry_details[4]);
             String instrctn=insert_instruction(entry_details);
             System.out.println(instrctn);
@@ -119,10 +147,9 @@ public class Engine{
                     System.out.println("Data Format: "+ eElement.getElementsByTagName("type").item(0).getTextContent());
                     System.out.println("URL source: "+ eElement.getElementsByTagName("URL").item(0).getTextContent());
 //                    INSTRUCTION:GETtEXTCONTECT GIVES A sTRING
-
-//                    trying to call json data dump
+//                    trying to call data_dump
 //                    THIS function runs the data dump
-                    json_data_dump(eElement);
+                    data_dump(eElement);
                 }
 
             }
