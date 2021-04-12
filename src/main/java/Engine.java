@@ -91,7 +91,7 @@ public class Engine{
 //            1.to connect to database
 //INSTRUCTION:Database name is testDB in my case,change accordingly,similarly change username and password according to ur system
 //INSTRUCTION:BEFORE THAT CREATE A DATABASE THAT IS NAMED testDB ON YOUR SYSTEM
-            Connection connect=DriverManager.getConnection("jdbc:mysql://localhost:3306/testDB","root","xxxx");
+            Connection connect=DriverManager.getConnection("jdbc:mysql://localhost:3306/testDB","root","xxx");
             System.out.println("Successfully set up Connection to database\n");
 
 
